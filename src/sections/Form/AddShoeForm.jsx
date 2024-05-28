@@ -22,7 +22,6 @@ const AddShoeForm = () => {
       }
     };
 
-
     fetchSizes();
   }, []);
 
@@ -32,7 +31,7 @@ const AddShoeForm = () => {
     formData.append("Name", name);
     formData.append("Price", price);
     formData.append("CategoryId", 2);
-    formData.append("Image", image);
+    formData.append("Img", image);
 
     const sizeDetails = selectedSizes.map((size) => ({
       sizeId: size.id,
@@ -42,11 +41,15 @@ const AddShoeForm = () => {
     console.log(formData);
     try {
       let token = localStorage.getItem("access_token");
-      const response = await authApi(token).post(endpoints["shoe_create"], formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await authApi(token).post(
+        endpoints["shoe_create"],
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log("Shoe created successfully:", response.data);
     } catch (error) {
       console.error("Error creating shoe:", error);
@@ -68,7 +71,9 @@ const AddShoeForm = () => {
 
   return (
     <div className="container mx-auto p-4 padding">
-      <Link className="underline" to="/admin">Back to Dashboard</Link>
+      <Link className="underline" to="/admin">
+        Back to Dashboard
+      </Link>
       <h1 className="text-2xl font-bold mb-4">Add New Shoe</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

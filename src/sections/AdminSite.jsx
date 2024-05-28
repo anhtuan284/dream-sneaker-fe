@@ -1,29 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const AdminSite = () => {
   return (
-    <div className="container mx-auto p-4 padding">
-      <h1 className="text-2xl font-bold mb-4">Admin Site</h1>
-      <nav className="mb-4">
+    <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
+      <header className="mb-6 bg-slate-200">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
+          Admin Dashboard
+        </h1>
+      </header>
+      <nav className="flex justify-center space-x-4 mb-8">
         <Link
           to="add-shoe"
-          className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
         >
           Add Shoe
         </Link>
         <Link
           to="edit-shoe"
-          className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+          className="px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 transition duration-300"
         >
           Edit Shoe
         </Link>
         <Link
           to="delete-shoe"
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300"
         >
           Delete Shoe
         </Link>
       </nav>
+      <main className="mt-8">
+        <Outlet />
+      </main>
     </div>
   );
 };

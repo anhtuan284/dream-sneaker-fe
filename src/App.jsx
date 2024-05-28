@@ -11,6 +11,7 @@ import ShoeDetail from "./components/ShoeDetail";
 import Register from "./sections/LandingPage/Register";
 import AdminSite from "./sections/AdminSite";
 import AddShoeForm from "./sections/Form/AddShoeForm";
+import Cart from "./sections/Cart";
 
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, null);
@@ -19,9 +20,10 @@ const App = () => {
       <MyContext.Provider value={[user, dispatch]}>
         <Routes>
           <Route index element={<LandingPage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/product" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/api/Shoe/:id" element={<ShoeDetail />} />
           <Route path="/admin" element={<AdminSite />} />
           <Route path="/admin/add-shoe" element={<AddShoeForm />} />

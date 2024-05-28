@@ -22,7 +22,6 @@ const ProductList = (props) => {
     try {
       let url = `${endpoints["shoes"]}?Page=${page}&Size=${pageSize}`;
 
-      // let catId = q.get("CategoryId");
       if (catId) {
         setPage(1);
         setCatId(catId);
@@ -74,7 +73,11 @@ const ProductList = (props) => {
           selections. Discover a world of comfort, design, and value
         </p>
       </div>
-      <SearchWithDropDown selectedId={catId} setSelectedId={setCatId} setKw={setKw} />
+      <SearchWithDropDown
+        selectedId={catId}
+        setSelectedId={setCatId}
+        setKw={setKw}
+      />
       {loading ? (
         <Loader />
       ) : (

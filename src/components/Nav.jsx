@@ -5,6 +5,7 @@ import { navLinks } from "../constants";
 import MyContext from "../config/MyContext";
 import { Link, useNavigate } from "react-router-dom";
 import { authApi, endpoints } from "../config/APIs";
+import { Badge } from "react-bootstrap";
 
 const Nav = () => {
   const [user, dispatch] = useContext(MyContext);
@@ -29,14 +30,13 @@ const Nav = () => {
             payload: user.data,
           });
         }
+      } catch (e) {
+        console.log(e.response);
       }
-      catch(e) {
-        console.log(e.response)
-      }
-    }
-    getUser()
-  }, [])
-  
+    };
+    getUser();
+  }, []);
+
   return (
     <header className="padding-x py-8 absolute z-10 w-full">
       <nav className="flex justify-between items-center max-container">
@@ -60,7 +60,13 @@ const Nav = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <Link to="/cart" className="nav-link">
+              &#128722; <Badge bg="danger">0</Badge>
+            </Link>
+          </li>
         </ul>
+
         {user === null ? (
           <>
             <div className="flex gap-2 text-lg leading-normal font-medium font-montserrat max-lg:hidden wide:mr-24 hover:font-bold hover:text-xl duration-150">
@@ -79,7 +85,10 @@ const Nav = () => {
                 {user.username}
               </span>
               {" • "}
-              <span onClick={logout} className="text-red-400 font-bold hover:font-bold hover:text-xl duration-150">
+              <span
+                onClick={logout}
+                className="text-red-400 font-bold hover:font-bold hover:text-xl duration-150"
+              >
                 Logout
               </span>
             </div>

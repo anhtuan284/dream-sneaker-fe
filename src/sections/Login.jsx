@@ -27,10 +27,8 @@ const Login = (props) => {
         type: "login",
         payload: user.data,
       });
-      if (user.data.role === 'admin')
-        nav('/admin/')
-      else
-        nav("/home")
+      if (user.data.role === "admin") nav("/admin/");
+      else nav("/home");
     } catch (ex) {
       console.log("On Catch!!");
       if (ex.response && ex.response.status === 400) {
