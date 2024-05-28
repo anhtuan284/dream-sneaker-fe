@@ -1,12 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { hamburger } from "../assets/icons";
 import { headerLogo } from "../assets/images";
 import { navLinks } from "../constants";
 import MyContext from "../config/MyContext";
 import { Link, useNavigate } from "react-router-dom";
+import { authApi, endpoints } from "../config/APIs";
 
 const Nav = () => {
   const [user, dispatch] = useContext(MyContext);
+  const [tempUser, setTempUser] = useState();
   const nav = useNavigate();
   const logout = () => {
     dispatch({
@@ -15,6 +17,26 @@ const Nav = () => {
     localStorage.removeItem("access_token");
     nav("/login");
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        let token = localStorage.getItem("access_token");
+        let user = await authApi(token).get(endpoints["current_user"]);
+        if (user) {
+          dispatch({
+            type: "login",
+            payload: user.data,
+          });
+        }
+      }
+      catch(e) {
+        console.log(e.response)
+      }
+    }
+    getUser()
+  }, [])
+  
   return (
     <header className="padding-x py-8 absolute z-10 w-full">
       <nav className="flex justify-between items-center max-container">

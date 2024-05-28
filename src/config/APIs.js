@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'https://localhost:44303/';
+const BASE_URL = 'https://qlbgweb.onrender.com/';
 
 export const endpoints = {
     'login': '/api/Auth/login',
@@ -17,10 +17,11 @@ export const endpoints = {
     'shoe_create': '/api/Shoe/create',
 
     'size': '/api/Size/create',
+    'size_all': '/api/Size/all',
 }
 
 export const authApi = (accessToken) => axios.create({
-    baseURL: "https://localhost:44303/",
+    baseURL: "https://qlbgweb.onrender.com/",
     headers: {
         "Authorization": `Bearer ${accessToken}`
     }
