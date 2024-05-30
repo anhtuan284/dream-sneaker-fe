@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import APIs, { endpoints } from "../config/APIs";
 import Loader from "./Loader";
@@ -8,13 +8,14 @@ import StarRating from "./StarRating";
 import Nav from "./Nav";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MyContext from "../config/MyContext";
 
 const ShoeDetail = (props) => {
   const { id } = useParams();
   const [shoe, setShoe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie] = useCookies(["cart"]);
-
+  const [user, dispatch] = useContext(MyContext);
   useEffect(() => {
     const fetchShoe = async () => {
       try {
@@ -28,7 +29,7 @@ const ShoeDetail = (props) => {
     };
 
     fetchShoe();
-  }, [id]);
+  }, [id, user]);
 
   const addToCart = () => {
     const cart = cookies.cart || {};
@@ -184,7 +185,14 @@ const ShoeDetail = (props) => {
                 >
                   Add To Cart
                 </button>
-                <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                {user ? <>
+                  <Link
+                    to={`/admin/shoe/${shoe.id}`}
+                    className="px-6 py-3 mx-6 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition duration-300"
+                  >
+                    Edit
+                  </Link>
+                </> : <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
                     strokeLinecap="round"
@@ -195,7 +203,7 @@ const ShoeDetail = (props) => {
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                   </svg>
-                </button>
+                </button>}
               </div>
             </div>
           </div>

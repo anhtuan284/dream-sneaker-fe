@@ -16,8 +16,10 @@ const ProductList = (props) => {
   const [q] = useSearchParams();
   const [catId, setCatId] = useState();
   const [kw, setKw] = useState();
+  const user = localStorage.getItem("access_token")
 
   const loadProducts = async () => {
+    console.log(user)
     setLoading(true);
     try {
       let url = `${endpoints["shoes"]}?Page=${page}&Size=${pageSize}`;
@@ -113,6 +115,7 @@ const ProductList = (props) => {
             >
               Next
             </button>
+            
           </div>
         </>
       )}

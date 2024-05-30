@@ -27,6 +27,7 @@ const App = () => {
           <Route path="/api/Shoe/:id" element={<ShoeDetail />} />
           <Route path="/admin" element={<AdminSite />} />
           <Route path="/admin/add-shoe" element={<AddShoeForm />} />
+          <Route path="/admin/shoe/:id" element={<AddShoeForm />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </MyContext.Provider>

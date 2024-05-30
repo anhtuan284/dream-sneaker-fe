@@ -10,22 +10,16 @@ const AdminSite = () => {
       </header>
       <nav className="flex justify-center space-x-4 mb-8">
         <Link
+          to="/"
+          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+        >
+          Home
+        </Link>
+        <Link
           to="add-shoe"
           className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
         >
           Add Shoe
-        </Link>
-        <Link
-          to="edit-shoe"
-          className="px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 transition duration-300"
-        >
-          Edit Shoe
-        </Link>
-        <Link
-          to="delete-shoe"
-          className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300"
-        >
-          Delete Shoe
         </Link>
       </nav>
       <main className="mt-8">

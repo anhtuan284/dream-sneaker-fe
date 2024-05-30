@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import APIs, { authApi, endpoints } from "../../config/APIs";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const AddShoeForm = () => {
   const [name, setName] = useState("");
@@ -10,6 +10,8 @@ const AddShoeForm = () => {
   const [sizes, setSizes] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
 
+  const [shoe,setShoe] = useState(null)
+  const { id } = useParams();
   useEffect(() => {
     // Fetch sizes from API
     const fetchSizes = async () => {
@@ -21,9 +23,31 @@ const AddShoeForm = () => {
         console.error("Error fetching sizes:", error);
       }
     };
-
+    const fetchShoe = async () => {
+      try {
+        if(shoe){
+          return
+        }
+        const res = await APIs.get(endpoints["shoe_detail"](id));
+        setShoe(res.data.data);
+      } catch (ex) {
+        console.error(ex);
+      } finally{
+        if(shoe){
+          setName(shoe.name)
+          setPrice(shoe.price)
+          setImage(shoe.image)
+          shoe.shoeDetails.map(e=>{
+            handleSizeChange(e.sizeId,e.quantity)
+          })
+        }
+      }
+    };
     fetchSizes();
-  }, []);
+    if(id){
+      fetchShoe();
+    }
+  }, [shoe]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +82,7 @@ const AddShoeForm = () => {
 
   const handleSizeChange = (sizeId, quantity) => {
     setSelectedSizes((prev) => {
+      console.log(selectedSizes)
       const existing = prev.find((size) => size.id === sizeId);
       if (existing) {
         return prev.map((size) =>
@@ -68,14 +93,37 @@ const AddShoeForm = () => {
       }
     });
   };
+  const checksize=(id)=>{
+    let exist = false
+    selectedSizes.map(e=>{
+      if(e.id == id && e.quantity != 0){
+        exist = true
+      }
+    })
+    return exist
+  }
+  const getquatity=(id)=>{
+    let quantity = 0;
+    selectedSizes.map(e=>{
+      if(e.id == id){
+        quantity = e.quantity
+      }
+    })
+    return quantity
+  }
+  const handleUpdate = ()=>{
 
+  }
+  const handleDelete = ()=>{
+    
+  }
   return (
     <div className="container mx-auto p-4 padding">
       <Link className="underline" to="/admin">
         Back to Dashboard
       </Link>
-      <h1 className="text-2xl font-bold mb-4">Add New Shoe</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h1 className="text-2xl font-bold mb-4">{shoe?"":"Add New Shoe"}</h1>
+      <div className="space-y-4">
         <div>
           <label className="block text-gray-700">Name</label>
           <input
@@ -113,6 +161,7 @@ const AddShoeForm = () => {
                 <input
                   type="checkbox"
                   value={size.id}
+                  checked={checksize(size.id)}
                   onChange={(e) =>
                     handleSizeChange(size.id, e.target.checked ? 1 : 0)
                   }
@@ -122,6 +171,7 @@ const AddShoeForm = () => {
                 <input
                   type="number"
                   min="0"
+                  value={getquatity(size.id)}
                   placeholder="Quantity"
                   className="w-20 p-1 border rounded"
                   disabled={!selectedSizes.some((s) => s.id === size.id)}
@@ -133,13 +183,26 @@ const AddShoeForm = () => {
             ))}
           </div>
         </div>
-        <button
-          type="submit"
+        {!id?<button
+          onClick={handleSubmit}
           className="px-4 py-2 bg-blue-500 text-white rounded"
         >
           Add Shoe
+        </button>:<>
+        <button
+          onClick={handleUpdate}
+          className="px-4 py-2 mx-5 bg-blue-500 text-white rounded"
+        >
+          Edit Shoe
         </button>
-      </form>
+        <button
+          onClick={handleDelete}
+          className="px-4 py-2 mx-5 bg-red-500 text-white rounded"
+        >
+          Delete Shoe
+        </button>
+        </>}
+      </div>
     </div>
   );
 };
